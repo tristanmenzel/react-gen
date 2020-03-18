@@ -1,0 +1,186 @@
+{
+  "name": "@tristanwritescode/react-gen",
+  "version": "1.0.0",
+  "description": "Generates code for react apps",
+  "main": "js/index.js",
+  "bin": {
+    "@tristanwritescode/react-gen": "bin/react-gen.js",
+    "react-gen": "bin/react-gen.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint:fix": "eslint src/**/*.ts --fix --ignore-path .eslintignore",
+    "lint:check": "eslint src/**/*.ts --ignore-path .eslintignore",
+    "test": "react-gen fc temp/demo",
+    "build-and-run": "npm run build && npm run test"
+  },
+  "author": "Tristan Menzel",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/colors": "^1.2.1",
+    "@types/mustache": "^4.0.1",
+    "@types/node": "^13.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "arg": "^4.1.3",
+    "change-case": "^4.1.1",
+    "colors": "^1.4.0",
+    "esm": "^3.2.25",
+    "mustache": "^4.0.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "arrow-spacing": [
+        "error",
+        {
+          "before": true,
+          "after": true
+        }
+      ],
+      "comma-spacing": [
+        "error",
+        {
+          "after": true,
+          "before": false
+        }
+      ],
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "key-spacing": [
+        "error",
+        {
+          "afterColon": true
+        }
+      ],
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1,
+          "ignoredNodes": [
+            "JSXAttribute",
+            "JSXSpreadAttribute"
+          ]
+        }
+      ],
+      "max-len": [
+        "error",
+        {
+          "ignoreUrls": true,
+          "code": 120
+        }
+      ],
+      "no-var": "error",
+      "object-shorthand": "error",
+      "dot-location": [
+        "error",
+        "property"
+      ],
+      "@typescript-eslint/member-delimiter-style": [
+        "error",
+        {
+          "multiline": {
+            "delimiter": "none",
+            "requireLast": true
+          },
+          "singleline": {
+            "delimiter": "comma",
+            "requireLast": true
+          }
+        }
+      ],
+      "@typescript-eslint/prefer-optional-chain": "error",
+      "@typescript-eslint/no-empty-function": "warn",
+      "prefer-const": "warn",
+      "keyword-spacing": [
+        "error",
+        {
+          "before": true,
+          "after": true
+        }
+      ],
+      "space-before-blocks": [
+        "error",
+        "always"
+      ],
+      "no-trailing-spaces": "error",
+      "no-multi-spaces": "error",
+      "no-unused-vars": "off",
+      "no-unexpected-multiline": "error",
+      "prefer-template": "error",
+      "no-constant-condition": "off",
+      "rest-spread-spacing": [
+        "error",
+        "never"
+      ],
+      "yield-star-spacing": [
+        "error",
+        "after"
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "always-multiline"
+        }
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-single"
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "no-dupe-class-members": "off",
+      "object-curly-newline": [
+        "error",
+        {
+          "consistent": true
+        }
+      ],
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          "max": 2
+        }
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
+  }
+}

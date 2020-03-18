@@ -1,0 +1,8 @@
+import React from 'react'
+import styles from './{{ pascalName }}.module.scss'
+
+export const {{ pascalName }}: React.FC<{}> = ({ children }) => {
+  return <div className={ styles.{{camelName}} }>
+   { children}
+  </div>
+}
