@@ -1,6 +1,6 @@
 # React-Gen
 
-An extensible file scaffolder for any web project but made with react in mind since Angular already has a great code gen tool. 
+An extensible file scaffolder for any web project but made with React in mind since Angular already has a great code gen tool. 
 
 ## Installation
 
@@ -32,7 +32,7 @@ react-gen gen fc components/some/path/my-component
 ```
 or
 ```shell script
-react-gen fc components/some/path/my-component
+react-gen fc components/some/path/my-component components/some/path/other-component
 ```
 
 ## Configuration
@@ -45,7 +45,7 @@ Create a json file named `.react-gen` at your `package.json` level, or use the `
 |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
 | `basePath`             | An absolute path from the settings file for which template paths should be relative to.                                                                                                             | `"src"`         |
 | `templates`            | An array of custom templates to be merged with existing templates                                                                                                                                   | _N/A_           |
-| `directoryForTemplate` | Given a path `"routes/my-component"`: `true` will create a `my-component` directory and place   the template files in there, `false` will place template files directly in the `routes` directory.  | `true`          |
+| `directoryForTemplate` | Given a path `"routes/my-component"`; `true` will create a `my-component` directory and place   the template files in there, `false` will place template files directly in the `routes` directory.  | `true`          |
 | `directoryCasing`      | Case conversion option for directory names. One of `kebabCase`, `camelCase`, `pascalCase`                                                                                                           | `"kebabCase"`   |
 | `fileCasing`           | Case conversion option for file names. One of`kebabCase`, `camelCase`, `pascalCase`                                                                                                                 | `"pascalCase"`  |
 
