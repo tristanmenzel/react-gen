@@ -30,6 +30,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Check package version
         uses: technote-space/package-version-check-action@v1
+        with:
+          COMMIT_DISABLED: 1
       - run: npm ci
       - run: npm publish
         env:
