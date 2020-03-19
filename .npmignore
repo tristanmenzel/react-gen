@@ -1,0 +1,8 @@
+.github
+.idea
+.git
+.editorconfig
+.eslintignore
+src
+tsconfig.*
+*.tgz
