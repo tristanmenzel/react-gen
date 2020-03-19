@@ -1,10 +1,17 @@
 import path from 'path'
 import * as fs from 'fs'
 import { createFileSync } from './file-helpers'
+import Ajv from 'ajv'
+import * as schema from './schema.react-gen.json'
+
+export type CaseOptions = 'kebabCase' | 'camelCase' | 'pascalCase'
 
 export interface ReactGenSettings {
   basePath: string
   templates: TemplateInfo[]
+  directoryForTemplate: boolean
+  directoryCasing: CaseOptions
+  fileCasing: CaseOptions
 
 }
 
@@ -14,16 +21,28 @@ export interface TemplateInfo {
   files: string[]
 }
 
+
+const ValidateSchema = (settings: ReactGenSettings): void => {
+  const ajv = new Ajv()
+  if (!ajv.validate(schema, settings)) {
+    console.error(ajv.errorsText(ajv.errors).red)
+    throw new Error('Invalid settings file schema')
+  }
+}
+
 export const DEFAULT_SETTINGS: ReactGenSettings = {
   basePath: 'src',
   templates: [{
     name: 'functional-component',
     shortcut: 'fc',
     files: [
-      path.join(__dirname, '../templates/functional-component/pascalName.module.scss.mustache'),
-      path.join(__dirname, '../templates/functional-component/pascalName.tsx.mustache'),
+      path.join(__dirname, '../templates/functional-component/file.module.scss.mustache'),
+      path.join(__dirname, '../templates/functional-component/file.tsx.mustache'),
     ],
   }],
+  directoryCasing: 'kebabCase',
+  fileCasing: 'pascalCase',
+  directoryForTemplate: true,
 }
 
 export const FindPackageJsonDir = (workingDirectory: string): string => {
@@ -39,7 +58,7 @@ export const FindPackageJsonDir = (workingDirectory: string): string => {
 
 }
 
-const EMPTY_SETTINGS: ReactGenSettings = {
+const SETTINGS_TEMPLATE: Partial<ReactGenSettings> = {
   basePath: 'src',
   templates: [],
 }
@@ -49,23 +68,31 @@ export const LoadSettings = (workingDirectory: string): ReactGenSettings => {
 
   const settingsFilePath = path.join(dir, '.react-gen')
   const settingsFile = fs.existsSync(settingsFilePath)
-    ? JSON.parse(fs.readFileSync(settingsFilePath, 'utf8'))
+    ? JSON.parse(fs.readFileSync(settingsFilePath, 'utf8')) as Partial<ReactGenSettings>
     : undefined
 
-  return {
+  const settings = {
     ...DEFAULT_SETTINGS,
     ...settingsFile,
     basePath: path.join(dir, settingsFile?.basePath ?? DEFAULT_SETTINGS.basePath),
     templates: [
-      ...(settingsFile.templates ?? []),
+      ...(settingsFile
+          ?.templates
+          ?.map(t => ({
+            ...t,
+            files: t.files.map(fp => fp.startsWith('.') ? path.join(dir, fp) : fp),
+          }))
+        ?? []),
       ...(DEFAULT_SETTINGS.templates),
     ],
   }
+  ValidateSchema(settings)
+  return settings
 }
 
 
 export const CreateSettings = (workingDirectory: string): void => {
   const dir = FindPackageJsonDir(workingDirectory)
   const outFile = path.join(dir, '.react-gen')
-  createFileSync(outFile, JSON.stringify(EMPTY_SETTINGS, null, 2))
+  createFileSync(outFile, JSON.stringify(SETTINGS_TEMPLATE, null, 2))
 }

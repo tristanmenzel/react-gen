@@ -1,0 +1,55 @@
+{
+  "$id": "https://github.com/tristanmenzel/react-gen/src/schema.react-gen.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Settings file for react-gen",
+  "title": "ReactGenSettings",
+  "properties": {
+    "basePath": {
+      "type": "string"
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/templateDefinition"
+      }
+    },
+    "directoryForTemplate": {
+      "type": "boolean"
+    },
+    "directoryCasing": {
+      "$ref": "#/definitions/caseOption"
+    },
+    "fileCasing": {
+      "$ref": "#/definitions/caseOption"
+    }
+  },
+  "required": ["basePath", "templates"],
+  "definitions": {
+    "caseOption": {
+      "type": "string",
+      "enum": [
+        "camelCase",
+        "pascalCase",
+        "kebabCase"
+      ]
+    },
+    "templateDefinition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "shortcut": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["name", "files"]
+    }
+  }
+}

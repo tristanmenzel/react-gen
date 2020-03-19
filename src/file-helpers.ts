@@ -3,8 +3,7 @@ import path from 'path'
 import 'colors'
 
 
-const ensureDirectoryExists = (fullPath: string) => {
-  const dir = path.dirname(fullPath)
+const ensureDirectoryExists = (dir: string) => {
   if (!fs.existsSync(dir)) {
     ensureDirectoryExists(path.dirname(dir))
     fs.mkdirSync(dir)
@@ -13,7 +12,7 @@ const ensureDirectoryExists = (fullPath: string) => {
 
 
 export const createFileSync = (filePath: string, fileContents: string): void => {
-  ensureDirectoryExists(filePath)
+  ensureDirectoryExists(path.dirname(filePath))
   try {
     fs.writeFileSync(filePath, fileContents, {
       flag: 'wx',
