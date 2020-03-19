@@ -1,6 +1,10 @@
 {
   "name": "@tristanwritescode/react-gen",
   "version": "0.1.0",
+  "repository": {
+    "type": "GIT",
+    "url": "https://github.com/tristanmenzel/react-gen"
+  },
   "description": "Generates code for react apps",
   "main": "js/index.js",
   "bin": {
@@ -14,18 +18,20 @@
     "build": "tsc",
     "lint:fix": "eslint src/**/*.ts --fix --ignore-path .eslintignore",
     "lint:check": "eslint src/**/*.ts --ignore-path .eslintignore",
-    "test": "react-gen fc temp/demo",
-    "build-and-run": "npm run build && npm run test"
+    "test": "jest"
   },
   "author": "Tristan Menzel",
   "license": "MIT",
   "devDependencies": {
     "@types/colors": "^1.2.1",
+    "@types/jest": "^25.1.4",
     "@types/mustache": "^4.0.1",
     "@types/node": "^13.9.2",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -34,6 +40,29 @@
     "colors": "^1.4.0",
     "esm": "^3.2.25",
     "mustache": "^4.0.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+      }
+    },
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "eslintConfig": {
     "extends": [

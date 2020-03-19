@@ -2,7 +2,7 @@ import path from 'path'
 import * as Mustache from 'mustache'
 import fs from 'fs'
 import * as changeCase from 'change-case'
-import { GenSettings, TemplateInfo } from './settings'
+import { ReactGenSettings, TemplateInfo } from './settings'
 import { createFileSync } from './file-helpers'
 
 interface TemplateModel {
@@ -34,14 +34,17 @@ const readTemplateFile = (templatePath: string) =>
   fs.readFileSync(templatePath, 'utf8') ?? ''
 
 export const Scaffold = (template: TemplateInfo,
-  targetPath: string,
-  settings: GenSettings) => {
+  targetPaths: string[],
+  settings: ReactGenSettings) => {
 
-  const model = parseTargetPath(targetPath)
+  for (const targetPath of targetPaths) {
 
-  for (const tf of template.files) {
-    const output = Mustache.render(readTemplateFile(tf), model)
-    const outPath = path.join(settings.basePath, targetPath, replaceTemplateFileName(path.basename(tf), model))
-    createFileSync(outPath, output)
+    const model = parseTargetPath(targetPath)
+
+    for (const tf of template.files) {
+      const output = Mustache.render(readTemplateFile(tf), model)
+      const outPath = path.join(settings.basePath, targetPath, replaceTemplateFileName(path.basename(tf), model))
+      createFileSync(outPath, output)
+    }
   }
 }

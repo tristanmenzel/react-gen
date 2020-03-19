@@ -2,7 +2,7 @@ import path from 'path'
 import * as fs from 'fs'
 import { createFileSync } from './file-helpers'
 
-export interface GenSettings {
+export interface ReactGenSettings {
   basePath: string
   templates: TemplateInfo[]
 
@@ -14,10 +14,10 @@ export interface TemplateInfo {
   files: string[]
 }
 
-const DefaultSettings: GenSettings = {
+export const DEFAULT_SETTINGS: ReactGenSettings = {
   basePath: 'src',
   templates: [{
-    name: 'functional-components',
+    name: 'functional-component',
     shortcut: 'fc',
     files: [
       path.join(__dirname, '../templates/functional-component/pascalName.module.scss.mustache'),
@@ -39,12 +39,12 @@ export const FindPackageJsonDir = (workingDirectory: string): string => {
 
 }
 
-const EmptySettings: GenSettings = {
+const EMPTY_SETTINGS: ReactGenSettings = {
   basePath: 'src',
   templates: [],
 }
 
-export const LoadSettings = (workingDirectory: string): GenSettings => {
+export const LoadSettings = (workingDirectory: string): ReactGenSettings => {
   const dir = FindPackageJsonDir(workingDirectory)
 
   const settingsFilePath = path.join(dir, '.react-gen')
@@ -53,12 +53,12 @@ export const LoadSettings = (workingDirectory: string): GenSettings => {
     : undefined
 
   return {
-    ...DefaultSettings,
+    ...DEFAULT_SETTINGS,
     ...settingsFile,
-    basePath: path.join(dir, settingsFile?.basePath ?? DefaultSettings.basePath),
+    basePath: path.join(dir, settingsFile?.basePath ?? DEFAULT_SETTINGS.basePath),
     templates: [
       ...(settingsFile.templates ?? []),
-      ...(DefaultSettings.templates),
+      ...(DEFAULT_SETTINGS.templates),
     ],
   }
 }
@@ -67,5 +67,5 @@ export const LoadSettings = (workingDirectory: string): GenSettings => {
 export const CreateSettings = (workingDirectory: string): void => {
   const dir = FindPackageJsonDir(workingDirectory)
   const outFile = path.join(dir, '.react-gen')
-  createFileSync(outFile, JSON.stringify(EmptySettings, null, 2))
+  createFileSync(outFile, JSON.stringify(EMPTY_SETTINGS, null, 2))
 }

@@ -14,17 +14,14 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": false,
     "outDir": "js"
   },
   "include": [
-    "src"
-  ],
-  "exclude": [
     "src/**/*.spec.ts"
   ]
 }
