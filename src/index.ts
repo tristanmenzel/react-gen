@@ -20,7 +20,7 @@ export const parseArgs = (rawArgs: string[], settings: ReactGenSettings): Args =
     },
   )
   const commandOrTemplate = args._[0]
-  const argOffset = Commands.includes(commandOrTemplate as any) ? 1 : 0
+  const argOffset = Commands.includes(commandOrTemplate as Args['command']) ? 1 : 0
   const templateNameOrShortcut = args._[0 + argOffset]
   const paths = args._.slice(1 + argOffset)
   return {

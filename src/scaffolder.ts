@@ -18,13 +18,13 @@ const replaceTemplateFileName = (fileName: string, model: TemplateModel): string
     .replace(/^file(\..*)\.mustache$/, `${model.fileName}$1`)
 
 
-const parseTargetPath = (targetPath: string, settings: ReactGenSettings): TemplateModel => {
+const parseTargetPath = (targetPath: string, templateInfo: TemplateInfo, settings: ReactGenSettings): TemplateModel => {
   const parts = targetPath.split('/')
   const name = parts.slice().pop() ?? 'component'
   return {
     directory: parts
       .map(p => changeCase(p, settings.directoryCasing))
-      .slice(0, settings.directoryForTemplate ? undefined : -1)
+      .slice(0, templateInfo.directoryForTemplate ?? settings.directoryForTemplate ? undefined : -1)
       .join('/'),
     fileName: changeCase(name, settings.fileCasing),
     kebabName: changeCase(name, 'kebabCase'),
@@ -43,7 +43,7 @@ export const Scaffold = (template: TemplateInfo,
 
   for (const targetPath of targetPaths) {
 
-    const model = parseTargetPath(targetPath, settings)
+    const model = parseTargetPath(targetPath, template, settings)
     for (const tf of template.files) {
       const output = Mustache.render(readTemplateFile(tf), model)
       const outPath = path.join(settings.basePath, '/',

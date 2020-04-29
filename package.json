@@ -1,6 +1,6 @@
 {
   "name": "@tristanwritescode/react-gen",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha",
   "repository": {
     "type": "GIT",
     "url": "https://github.com/tristanmenzel/react-gen"
@@ -41,7 +41,8 @@
     "change-case": "^4.1.1",
     "colors": "^1.4.0",
     "esm": "^3.2.25",
-    "mustache": "^4.0.1"
+    "mustache": "^4.0.1",
+    "tslib": "^1.11.1"
   },
   "jest": {
     "preset": "ts-jest",

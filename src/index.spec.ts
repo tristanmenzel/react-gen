@@ -49,11 +49,12 @@ test('parseArgs with no command, valid template shortcut and path returns gen co
   expect(result.template?.name).toBe('functional-component')
   expect(result.paths[0]).toBe('some/path')
 })
-test('parseArgs with no command, valid template shortcut and multiple paths returns gen command with multiple paths. ', () => {
-  const result = parseArgs([...NODE_ENV_ARGS, 'fc', 'some/path', 'some/other/path'], DEFAULT_SETTINGS)
+test('parseArgs with no command, valid template shortcut and multiple paths returns gen command with multiple paths. ',
+  () => {
+    const result = parseArgs([...NODE_ENV_ARGS, 'fc', 'some/path', 'some/other/path'], DEFAULT_SETTINGS)
 
-  expect(result.command).toBe('gen')
-  expect(result.template?.name).toBe('functional-component')
-  expect(result.paths[0]).toBe('some/path')
-  expect(result.paths[1]).toBe('some/other/path')
-})
+    expect(result.command).toBe('gen')
+    expect(result.template?.name).toBe('functional-component')
+    expect(result.paths[0]).toBe('some/path')
+    expect(result.paths[1]).toBe('some/other/path')
+  })

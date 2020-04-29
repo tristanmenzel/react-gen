@@ -19,6 +19,7 @@ export interface TemplateInfo {
   name: string
   shortcut: string
   files: string[]
+  directoryForTemplate?: boolean
 }
 
 
@@ -39,6 +40,13 @@ export const DEFAULT_SETTINGS: ReactGenSettings = {
       path.join(__dirname, '../templates/functional-component/file.module.scss.mustache'),
       path.join(__dirname, '../templates/functional-component/file.tsx.mustache'),
     ],
+  }, {
+    name: 'router-5',
+    shortcut: 'router',
+    files: [
+      path.join(__dirname, '../templates/router-5/file.tsx.mustache'),
+    ],
+    directoryForTemplate: false,
   }],
   directoryCasing: 'kebabCase',
   fileCasing: 'pascalCase',
