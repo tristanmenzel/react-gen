@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './{{ fileName }}.module.scss'
 
-export const {{ pascalName }}: React.FC<{}> = ({ children }) => {
-  return <div className={ styles.{{camelName}} }>
+export const {{ pascalName }}: React.FC<{ className?: string }> = ({ className, children }) => {
+  return <div className={ [styles.{{camelName}}, className].filter(Boolean).join(' ') }>
    { children}
   </div>
 }
