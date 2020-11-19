@@ -3,7 +3,7 @@ import path from 'path'
 import 'colors'
 
 
-const ensureDirectoryExists = (dir: string) => {
+const ensureDirectoryExists = (dir: string): void => {
   if (!fs.existsSync(dir)) {
     ensureDirectoryExists(path.dirname(dir))
     fs.mkdirSync(dir)
