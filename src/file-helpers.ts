@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import path from 'path'
 import 'colors'
+import { WriteFileOptions } from 'fs'
 
 
 const ensureDirectoryExists = (dir: string): void => {
@@ -10,12 +11,13 @@ const ensureDirectoryExists = (dir: string): void => {
   }
 }
 
-
-export const createFileSync = (filePath: string, fileContents: string): void => {
+export const createFileSync = (filePath: string, fileContents: string,
+  options?: Exclude<WriteFileOptions, string | null>): void => {
   ensureDirectoryExists(path.dirname(filePath))
   try {
     fs.writeFileSync(filePath, fileContents, {
       flag: 'wx',
+      ...options,
     })
     console.info(`File created:\n '${filePath}'`.green)
   } catch (err) {
@@ -28,3 +30,6 @@ export const createFileSync = (filePath: string, fileContents: string): void => 
   }
 }
 
+export const copyFile = (filePath: string, destinationPath: string): void => {
+  createFileSync(destinationPath, fs.readFileSync(filePath, 'utf-8'))
+}

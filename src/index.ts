@@ -1,16 +1,16 @@
 import arg from 'arg'
 import process from 'process'
 import { Scaffold } from './scaffolder'
-import { CreateSettings, ReactGenSettings, LoadSettings, TemplateInfo } from './settings'
+import { CreateSettings, ReactGenSettings, LoadSettings, TemplateInfo, EjectTemplates } from './settings'
 
 
 interface Args {
-  command: 'init' | 'gen'
+  command: 'init' | 'gen' | 'eject'
   template: TemplateInfo | undefined
   paths: string[]
 }
 
-const Commands: Args['command'][] = ['init', 'gen']
+const Commands: Args['command'][] = ['init', 'gen', 'eject']
 
 export const parseArgs = (rawArgs: string[], settings: ReactGenSettings): Args => {
   const args = arg(
@@ -40,6 +40,9 @@ export function cli(args: string[]): void {
   switch (parsed.command) {
     case 'init':
       CreateSettings(workingDirectory)
+      return
+    case 'eject':
+      EjectTemplates(workingDirectory)
       return
     case 'gen':
       if (parsed.template === undefined) {
