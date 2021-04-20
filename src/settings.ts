@@ -1,6 +1,6 @@
 import path from 'path'
 import * as fs from 'fs'
-import { createFileSync } from './file-helpers'
+import { copyFile, createFileSync } from './file-helpers'
 import Ajv from 'ajv'
 import * as schema from './schema.react-gen.json'
 
@@ -31,23 +31,31 @@ const ValidateSchema = (settings: ReactGenSettings): void => {
   }
 }
 
+const DEFAULT_TEMPLATES = [{
+  name: 'functional-component',
+  shortcut: 'fc',
+  files: [
+    'templates/functional-component/file.module.scss.mustache',
+    'templates/functional-component/file.tsx.mustache',
+  ],
+}, {
+  name: 'router-5',
+  shortcut: 'router',
+  files: [
+    'templates/router-5/file.tsx.mustache',
+  ],
+  directoryForTemplate: false,
+}]
+
+const MakeTemplateFilePathsAbsolute = (templates: TemplateInfo[], basePath: string): TemplateInfo[] =>
+  templates.map(t => ({
+    ...t,
+    files: t.files.map(f => path.join(basePath, f)),
+  }))
+
 export const DEFAULT_SETTINGS: ReactGenSettings = {
   basePath: 'src',
-  templates: [{
-    name: 'functional-component',
-    shortcut: 'fc',
-    files: [
-      path.join(__dirname, '../templates/functional-component/file.module.scss.mustache'),
-      path.join(__dirname, '../templates/functional-component/file.tsx.mustache'),
-    ],
-  }, {
-    name: 'router-5',
-    shortcut: 'router',
-    files: [
-      path.join(__dirname, '../templates/router-5/file.tsx.mustache'),
-    ],
-    directoryForTemplate: false,
-  }],
+  templates: MakeTemplateFilePathsAbsolute(DEFAULT_TEMPLATES, path.join(__dirname, '..')),
   directoryCasing: 'kebabCase',
   fileCasing: 'pascalCase',
   directoryForTemplate: true,
@@ -100,7 +108,28 @@ export const LoadSettings = (workingDirectory: string): ReactGenSettings => {
 
 
 export const CreateSettings = (workingDirectory: string): void => {
-  const dir = FindPackageJsonDir(workingDirectory)
-  const outFile = path.join(dir, '.react-gen')
+  const projectRoot = FindPackageJsonDir(workingDirectory)
+  const outFile = path.join(projectRoot, '.react-gen')
   createFileSync(outFile, JSON.stringify(SETTINGS_TEMPLATE, null, 2))
+}
+
+export const EjectTemplates = (workingDirectory: string): void => {
+  const projectRoot = FindPackageJsonDir(workingDirectory)
+  const settingsFilePath = path.join(projectRoot, '.react-gen')
+  const settings: ReactGenSettings = fs.existsSync(settingsFilePath)
+    ? JSON.parse(fs.readFileSync(settingsFilePath, 'utf8'))
+    : SETTINGS_TEMPLATE
+
+  DEFAULT_TEMPLATES.forEach(t => t.files.forEach(f => copyFile(
+    path.join(__dirname, '..', f),
+    path.join(projectRoot, '.react-gen-files', f))))
+
+  const updatedSettings = {
+    ...settings,
+    templates: [
+      ...settings?.templates ?? [],
+      ...MakeTemplateFilePathsAbsolute(DEFAULT_TEMPLATES, '.react-gen-files'),
+    ],
+  }
+  createFileSync(settingsFilePath, JSON.stringify(updatedSettings, null, 2), { flag: 'w' })
 }
