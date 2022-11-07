@@ -2,7 +2,13 @@ import React from 'react'
 import styles from './{{ fileName }}.module.scss'
 import { cn } from '@tristanwritescode/class-name'
 
-export const {{ pascalName }}: React.FC<{ className?: string }> = ({ className, children }) => {
+export interface {{ pascalName }}Props {
+  className?: string
+  children?: React.ReactNode
+}
+
+
+export function {{ pascalName }}({ className, children }: {{ pascalName }}Props) {
   return <div className={cn(styles.{{camelName}}, className)}>
    { children}
   </div>

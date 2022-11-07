@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import path from 'path'
 import 'colors'
 import { WriteFileOptions } from 'fs'
-
+import { randomUUID } from 'crypto'
 
 const ensureDirectoryExists = (dir: string): void => {
   if (!fs.existsSync(dir)) {
@@ -11,8 +11,7 @@ const ensureDirectoryExists = (dir: string): void => {
   }
 }
 
-export const createFileSync = (filePath: string, fileContents: string,
-  options?: Exclude<WriteFileOptions, string | null>): void => {
+export const createFileSync = (filePath: string, fileContents: string, options?: Exclude<WriteFileOptions, string | null>): void => {
   ensureDirectoryExists(path.dirname(filePath))
   try {
     fs.writeFileSync(filePath, fileContents, {
@@ -30,6 +29,14 @@ export const createFileSync = (filePath: string, fileContents: string,
   }
 }
 
-export const copyFile = (filePath: string, destinationPath: string): void => {
-  createFileSync(destinationPath, fs.readFileSync(filePath, 'utf-8'))
+export const copyFileSync = (filePath: string, destinationPath: string): void => {
+  ensureDirectoryExists(path.dirname(destinationPath))
+  fs.copyFileSync(filePath, destinationPath)
+}
+export const moveFileSync = (filePath: string, destinationPath: string): void => {
+  const tempPath = path.join(path.dirname(filePath), `${randomUUID()}.ext`)
+  fs.renameSync(filePath, tempPath)
+  ensureDirectoryExists(path.dirname(destinationPath))
+  fs.copyFileSync(tempPath, destinationPath)
+  fs.rmSync(tempPath)
 }

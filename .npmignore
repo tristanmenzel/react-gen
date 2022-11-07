@@ -6,3 +6,4 @@
 src
 tsconfig.*
 *.tgz
+wd
