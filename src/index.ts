@@ -3,7 +3,6 @@ import process from 'process'
 import { Scaffold } from './scaffolder'
 import { CreateSettings, ReactGenSettings, LoadSettings, TemplateInfo, EjectTemplates } from './settings'
 
-
 interface Args {
   command: 'init' | 'gen' | 'eject'
   template: TemplateInfo | undefined
@@ -24,13 +23,11 @@ export const parseArgs = (rawArgs: string[], settings: ReactGenSettings): Args =
   const templateNameOrShortcut = args._[0 + argOffset]
   const paths = args._.slice(1 + argOffset)
   return {
-    command: Commands.find(c => c === commandOrTemplate) ?? 'gen',
-    template: settings.templates
-      .filter(t => t.name === templateNameOrShortcut || t.shortcut === templateNameOrShortcut)[0],
+    command: Commands.find((c) => c === commandOrTemplate) ?? 'gen',
+    template: settings.templates.filter((t) => t.name === templateNameOrShortcut || t.shortcut === templateNameOrShortcut)[0],
     paths,
   }
 }
-
 
 export function cli(args: string[]): void {
   const workingDirectory = process.cwd()

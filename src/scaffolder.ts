@@ -14,16 +14,14 @@ interface TemplateModel {
 }
 
 const replaceTemplateFileName = (fileName: string, model: TemplateModel): string =>
-  fileName
-    .replace(/^file(\..*)\.mustache$/, `${model.fileName}$1`)
-
+  fileName.replace(/^file(\..*)\.mustache$/, `${model.fileName}$1`)
 
 const parseTargetPath = (targetPath: string, templateInfo: TemplateInfo, settings: ReactGenSettings): TemplateModel => {
   const parts = targetPath.split('/')
   const name = parts.slice().pop() ?? 'component'
   return {
     directory: parts
-      .map(p => changeCase(p, settings.directoryCasing))
+      .map((p) => changeCase(p, settings.directoryCasing))
       .slice(0, templateInfo.directoryForTemplate ?? settings.directoryForTemplate ? undefined : -1)
       .join('/'),
     fileName: changeCase(name, settings.fileCasing),
@@ -31,24 +29,16 @@ const parseTargetPath = (targetPath: string, templateInfo: TemplateInfo, setting
     camelName: changeCase(name, 'camelCase'),
     pascalName: changeCase(name, 'pascalCase'),
   }
-
 }
 
-const readTemplateFile = (templatePath: string): string =>
-  fs.readFileSync(templatePath, 'utf8') ?? ''
+const readTemplateFile = (templatePath: string): string => fs.readFileSync(templatePath, 'utf8') ?? ''
 
-export const Scaffold = (template: TemplateInfo,
-  targetPaths: string[],
-  settings: ReactGenSettings): void => {
-
+export const Scaffold = (template: TemplateInfo, targetPaths: string[], settings: ReactGenSettings): void => {
   for (const targetPath of targetPaths) {
-
     const model = parseTargetPath(targetPath, template, settings)
     for (const tf of template.files) {
       const output = Mustache.render(readTemplateFile(tf), model)
-      const outPath = path.join(settings.basePath, '/',
-        model.directory,
-        replaceTemplateFileName(path.basename(tf), model))
+      const outPath = path.join(settings.basePath, '/', model.directory, replaceTemplateFileName(path.basename(tf), model))
       createFileSync(outPath, output)
     }
   }
