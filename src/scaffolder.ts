@@ -21,10 +21,10 @@ const parseTargetPath = (targetPath: string, templateInfo: TemplateInfo, setting
   const name = parts.slice().pop() ?? 'component'
   return {
     directory: parts
-      .map((p) => changeCase(p, settings.directoryCasing))
+      .map((p) => changeCase(p, templateInfo.directoryCasing ?? settings.directoryCasing))
       .slice(0, templateInfo.directoryForTemplate ?? settings.directoryForTemplate ? undefined : -1)
       .join('/'),
-    fileName: changeCase(name, settings.fileCasing),
+    fileName: changeCase(name, templateInfo.fileCasing ?? settings.fileCasing),
     kebabName: changeCase(name, 'kebabCase'),
     camelName: changeCase(name, 'camelCase'),
     pascalName: changeCase(name, 'pascalCase'),

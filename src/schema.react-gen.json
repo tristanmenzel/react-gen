@@ -51,6 +51,12 @@
         },
         "directoryForTemplate": {
           "type": "boolean"
+        },
+        "fileCasing": {
+          "$ref": "#/definitions/caseOption"
+        },
+        "directoryCasing": {
+          "$ref": "#/definitions/caseOption"
         }
       },
       "required": ["name", "files"]

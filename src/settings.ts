@@ -19,6 +19,8 @@ export interface TemplateInfo {
   shortcut: string
   files: string[]
   directoryForTemplate?: boolean
+  fileCasing?: CaseOptions
+  directoryCasing?: CaseOptions
 }
 
 const ValidateSchema = (settings: ReactGenSettings): void => {
