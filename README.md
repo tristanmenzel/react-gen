@@ -1,6 +1,6 @@
 # React-Gen
 
-An extensible file scaffolder for any web project but made with React in mind since Angular already has a great code gen tool. 
+An extensible file scaffolder for any web project but made with React in mind since Angular already has a great code gen tool.
 
 ## Installation
 
@@ -51,11 +51,13 @@ Create a json file named `.react-gen` at your `package.json` level, or use the `
 
 **Template schema**
 
-| Property   | Description                                                                                         |
-|------------|-----------------------------------------------------------------------------------------------------|
-| `name`     | The name of the template. If this name matches an existing template it will override that template. |
-| `shortcut` | A shortcut value for the template. (Optional)                                                       |
-| `files`    | An array of paths to files for this template. Can be absolute or relative to the settings file.     |
+| Property          | Description                                                                                         |
+|-------------------|-----------------------------------------------------------------------------------------------------|
+| `name`            | The name of the template. If this name matches an existing template it will override that template. |
+| `shortcut`        | A shortcut value for the template. (Optional)                                                       |
+| `files`           | An array of paths to files for this template. Can be absolute or relative to the settings file.     |
+| `fileCasing`      | Overrides the file casing setting for just this template.                                           |
+| `directoryCasing` | Overrides the directory casing setting for just this template                                       |
 
 ## Custom templates
 
@@ -68,7 +70,7 @@ Eg. `routes/my-component` with the file name `file.tsx.mustache` will result in 
 
 **File template**
 
-The templates themselves are mustache templates. The model available has the following properties. 
+The templates themselves are mustache templates. The model available has the following properties.
 
 | Property     | Description                                                                                                |
 |--------------|------------------------------------------------------------------------------------------------------------|
